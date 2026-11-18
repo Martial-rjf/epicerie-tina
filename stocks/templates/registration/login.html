@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion - Épicerie Tina</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        body::before,
+        body::after {
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(52, 152, 219, 0.4), transparent 70%);
+            animation: float 8s ease-in-out infinite;
+        }
+        body::before {
+            width: 400px;
+            height: 400px;
+            top: -150px;
+            left: -150px;
+        }
+        body::after {
+            width: 500px;
+            height: 500px;
+            bottom: -200px;
+            right: -200px;
+            animation-delay: -4s;
+            background: radial-gradient(circle, rgba(41, 128, 185, 0.35), transparent 70%);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(30px, -30px) scale(1.05); }
+        }
+
+        .card-login {
+            border: none;
+            border-radius: 24px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4);
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            max-width: 450px;
+            width: 100%;
+            animation: fadeIn 0.6s ease-out;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            z-index: 10;
+        }
+
+        .card-login:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 30px 70px rgba(52, 152, 219, 0.3);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card-header-custom {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #3498db 100%);
+            color: white;
+            padding: 40px 30px 32px;
+            text-align: center;
+            border-bottom: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-header-custom::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 40%, rgba(255,255,255,0.15), transparent 50%);
+            animation: rotate 15s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .card-header-custom::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #3498db, #5dade2, #3498db);
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        .logo-icon {
+            font-size: 4.2rem;
+            color: #ffffff;
+            display: block;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 2;
+            filter: drop-shadow(0 4px 10px rgba(0,0,0,0.2));
+        }
+
+        .card-header-custom h2 {
+            margin: 0;
+            font-weight: 700;
+            letter-spacing: 1px;
+            font-size: 1.8rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .card-header-custom .subtitle {
+            font-size: 0.95rem;
+            opacity: 0.9;
+            margin-top: 6px;
+            font-weight: 300;
+            position: relative;
+            z-index: 2;
+        }
+
+        .card-body-custom {
+            padding: 40px 35px;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #1e3c72;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        .form-control {
+            border-radius: 12px;
+            border: 2px solid #d6eaf8;
+            padding: 13px 16px;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            background: #f8fbff;
+        }
+
+        .form-control:focus {
+            border-color: #3498db;
+            box-shadow: 0 0 0 4px rgba(52, 152, 219, 0.15);
+            background: white;
+        }
+
+        .form-control::placeholder {
+            color: #a8b8c8;
+            font-weight: 300;
+        }
+
+        .input-group .form-control {
+            border-radius: 12px 0 0 12px;
+        }
+
+        .input-group .form-control:focus {
+            border-color: #3498db;
+            border-right-color: #3498db;
+        }
+
+        .input-group .btn-toggle {
+            border-radius: 0 12px 12px 0;
+            border: 2px solid #d6eaf8;
+            border-left: none;
+            background: #f8fbff;
+            color: #1e3c72;
+            padding: 13px 16px;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .input-group .btn-toggle:hover {
+            background: #e8f4fb;
+        }
+
+        .input-group .btn-toggle i {
+            font-size: 1.2rem;
+            transition: transform 0.2s ease;
+        }
+
+        .input-group .btn-toggle:hover i {
+            transform: scale(1.1);
+        }
+
+        .btn-login {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #3498db 100%);
+            background-size: 200% 200%;
+            border: none;
+            padding: 16px;
+            font-weight: 700;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            color: white;
+            font-size: 1.1rem;
+            width: 100%;
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(30, 60, 114, 0.3);
+        }
+
+        .btn-login:hover {
+            background-position: 100% 100%;
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(52, 152, 219, 0.45);
+            color: white;
+        }
+
+        .alert-custom {
+            border-radius: 14px;
+            border: none;
+            padding: 14px 18px;
+            font-weight: 500;
+            animation: shake 0.5s ease;
+        }
+
+        .alert-danger.alert-custom {
+            background: #fdecea;
+            color: #b71c1c;
+            border-left: 4px solid #c0392b;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20% { transform: translateX(-8px); }
+            40% { transform: translateX(8px); }
+            60% { transform: translateX(-4px); }
+            80% { transform: translateX(4px); }
+        }
+
+        .text-muted {
+            color: #5a7a9a !important;
+            transition: color 0.2s ease;
+        }
+
+        .text-muted:hover {
+            color: #1e3c72 !important;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+            color: #a8b8c8;
+            font-size: 0.85rem;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid #d6eaf8;
+        }
+
+        .divider::before { margin-right: 16px; }
+        .divider::after { margin-left: 16px; }
+    </style>
+</head>
+<body>
+
+    <div class="card card-login">
+        <div class="card-header-custom">
+            <i class="bi bi-cup-hot logo-icon"></i>
+            <h2>Épicerie Tina</h2>
+            <div class="subtitle">Gestion des fiches de stocks</div>
+        </div>
+
+        <div class="card-body-custom">
+
+            {% if form.errors %}
+                <div class="alert alert-danger alert-custom" role="alert">
+                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                    <strong>Erreur :</strong> Nom d'utilisateur ou mot de passe incorrect.
+                </div>
+            {% endif %}
+
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-custom" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <form method="POST" novalidate>
+                {% csrf_token %}
+
+                <div class="mb-4">
+                    <label for="id_username" class="form-label">
+                        <i class="bi bi-person me-1"></i> Nom d'utilisateur
+                    </label>
+                    <input type="text"
+                           name="username"
+                           id="id_username"
+                           class="form-control"
+                           placeholder="Entrez votre nom d'utilisateur"
+                           required
+                           autofocus
+                           autocomplete="username">
+                </div>
+
+                <div class="mb-4">
+                    <label for="id_password" class="form-label">
+                        <i class="bi bi-lock me-1"></i> Mot de passe
+                    </label>
+                    <div class="input-group">
+                        <input type="password"
+                               name="password"
+                               id="id_password"
+                               class="form-control"
+                               placeholder="Entrez votre mot de passe"
+                               required
+                               autocomplete="current-password">
+                        <button type="button"
+                                class="btn-toggle"
+                                id="togglePassword"
+                                aria-label="Afficher ou masquer le mot de passe"
+                                role="button">
+                            <i class="bi bi-eye" id="toggleIcon"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="text-center mt-2 mb-4">
+                    <a href="{% url 'password_reset' %}" class="text-muted" style="text-decoration: none; font-weight: 500;">
+                        <i class="bi bi-question-circle"></i> Mot de passe oublié ?
+                    </a>
+                </div>
+
+                <button type="submit" class="btn btn-login">
+                    <i class="bi bi-box-arrow-in-right me-2"></i> Se connecter
+                </button>
+            </form>
+
+            <div class="divider">ou</div>
+
+            <div class="text-center text-muted small">
+                <i class="bi bi-info-circle me-1"></i>
+                Contactez l'administrateur pour obtenir vos identifiants.
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            const toggleBtn = document.getElementById('togglePassword');
+            const passwordInput = document.getElementById('id_password');
+            const toggleIcon = document.getElementById('toggleIcon');
+
+            if (!toggleBtn || !passwordInput || !toggleIcon) return;
+
+            toggleBtn.addEventListener('click', function() {
+                const isPassword = passwordInput.getAttribute('type') === 'password';
+                const newType = isPassword ? 'text' : 'password';
+                passwordInput.setAttribute('type', newType);
+
+                toggleIcon.classList.toggle('bi-eye');
+                toggleIcon.classList.toggle('bi-eye-slash');
+
+                passwordInput.focus();
+            });
+        })();
+    </script>
+
+</body>
+</html>

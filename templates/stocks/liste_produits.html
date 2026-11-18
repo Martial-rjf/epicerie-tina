@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Produits - Boulangerie</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        body { background: linear-gradient(135deg, #fdf6e3 0%, #f5e6ca 100%); min-height: 100vh; }
+        .card-header { background: linear-gradient(135deg, #8B4513, #A0522D); color: white; }
+        .btn-ajouter { background: #28a745; color: white; border-radius: 50px; padding: 10px 25px; font-weight: 600; border: none; text-decoration: none; display: inline-block; }
+        .btn-ajouter:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(40,167,69,0.3); color: white; }
+        .btn-retour { background: #6c757d; color: white; border-radius: 50px; padding: 10px 25px; font-weight: 600; border: none; text-decoration: none; display: inline-block; }
+        .btn-retour:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(108,117,125,0.3); color: white; }
+        .card { border: none; border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.12); overflow: hidden; }
+        .btn-vente { background: #17a2b8; color: white; border-radius: 50px; padding: 5px 15px; border: none; transition: all 0.3s ease; }
+        .btn-vente:hover { transform: scale(1.05); background: #138496; }
+        .btn-modifier { background: #ffc107; color: #212529; border-radius: 50px; padding: 5px 12px; text-decoration: none; }
+        .btn-supprimer { background: #dc3545; color: white; border-radius: 50px; padding: 5px 12px; text-decoration: none; }
+        .badge-cout { background: #17a2b8; }
+    </style>
+</head>
+<body>
+    <div class="container mt-4">
+        <div class="card shadow">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h3 class="mb-0"><i class="bi bi-cup-hot me-2"></i> Produits finis</h3>
+                <div>
+                    <a href="{% url 'ajouter_produit' %}" class="btn-ajouter">
+                        <i class="bi bi-plus-circle"></i> Ajouter un produit
+                    </a>
+                    <!-- CORRECTION : 'dashboard' → 'gestion_ingredients' -->
+                    <a href="{% url 'gestion_ingredients' %}" class="btn-retour ms-2">
+                        <i class="bi bi-arrow-left"></i> Retour
+                    </a>
+                </div>
+            </div>
+            <div class="card-body">
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Produit</th>
+                                <th>Prix vente (Ar)</th>
+                                <th>Coût revient (Ar)</th>
+                                <th>Marge</th>
+                                <th>Composition</th>
+                                <th>Vente</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for produit in produits %}
+                                <tr>
+                                    <td><strong>{{ produit.nom }}</strong></td>
+                                    <td>{{ produit.prix_vente|floatformat:2 }} Ar</td>
+                                    <td>{{ produit.calculer_cout_revient|floatformat:2 }} Ar</td>
+                                    <td>
+                                        <span class="badge {% if produit.calculer_marge > 50 %}bg-success{% elif produit.calculer_marge > 20 %}bg-warning{% else %}bg-danger{% endif %}">
+                                            {{ produit.calculer_marge|floatformat:1 }}%
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-sm btn-info" type="button" data-bs-toggle="collapse" data-bs-target="#comp-{{ produit.id }}">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                    </td>
+                                    <td>
+                                        <a href="{% url 'vente_produit' produit.id %}" class="btn-vente">
+                                            <i class="bi bi-cart-plus"></i> Vendre
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex gap-1">
+                                            <a href="{% url 'modifier_produit' produit.id %}" class="btn-modifier" title="Modifier">
+                                                <i class="bi bi-pencil"></i>
+                                            </a>
+                                            <a href="{% url 'supprimer_produit' produit.id %}" class="btn-supprimer" title="Supprimer">
+                                                <i class="bi bi-trash"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="7" class="p-0">
+                                        <div class="collapse" id="comp-{{ produit.id }}">
+                                            <div class="p-3 bg-light">
+                                                <strong>Composition :</strong>
+                                                <ul>
+                                                    {% for comp in produit.compositionproduit_set.all %}
+                                                        <li>{{ comp.ingredient.nom }} : {{ comp.quantite_necessaire }} {{ comp.ingredient.unite }}</li>
+                                                    {% empty %}
+                                                        <li>Aucun ingrédient défini.</li>
+                                                    {% endfor %}
+                                                </ul>
+                                                <a href="{% url 'ajouter_composition' produit.id %}" class="btn btn-sm btn-success mt-2">
+                                                    <i class="bi bi-plus-circle"></i> Ajouter un ingrédient
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% empty %}
+                                <tr>
+                                    <td colspan="7" class="text-center py-4">
+                                        <i class="bi bi-box" style="font-size: 2rem; display: block;"></i>
+                                        Aucun produit enregistré.
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

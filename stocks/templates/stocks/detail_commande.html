@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Commande #{{ commande.id }} - Boulangerie</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        body { background: #f8f4ef; }
+        .card-header { background: linear-gradient(135deg, #6b3a1f, #8B5A2B); color: white; }
+        .card { border: none; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.06); overflow: hidden; }
+        .btn-retour { background: #6c757d; color: white; border-radius: 50px; padding: 10px 25px; border: none; text-decoration: none; display: inline-block; }
+    </style>
+</head>
+<body>
+    <div class="container mt-4">
+        <div class="card shadow">
+            <div class="card-header d-flex justify-content-between align-items-center flex-wrap">
+                <h3 class="mb-0"><i class="bi bi-receipt me-2"></i>Commande #{{ commande.id }}</h3>
+                <div>
+                    <a href="{% url 'liste_commandes' %}" class="btn-retour"><i class="bi bi-arrow-left"></i> Retour</a>
+                    {% if commande.statut == 'EN_ATTENTE' %}
+                        <a href="{% url 'supprimer_commande' commande.id %}" class="btn btn-danger" style="border-radius: 50px;" onclick="return confirm('Supprimer cette commande ?')"><i class="bi bi-trash"></i> Supprimer</a>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="card-body">
+                {% if messages %}{% for message in messages %}<div class="alert alert-{{ message.tags }}">{{ message }}</div>{% endfor %}{% endif %}
+
+                <p><strong>Fournisseur :</strong> {{ commande.fournisseur.nom }}</p>
+                <p><strong>Date :</strong> {{ commande.date_commande|date:"d/m/Y H:i" }}</p>
+                <p><strong>Statut :</strong> {{ commande.get_statut_display }}</p>
+                <p><strong>Montant total :</strong> {{ commande.montant_total|floatformat:2 }} Ar</p>
+
+                <h5>Détail des lignes</h5>
+                <table class="table table-hover">
+                    <thead class="table-dark"><tr><th>Ingrédient</th><th>Quantité commandée</th><th>Prix unitaire</th><th>Sous-total</th></tr></thead>
+                    <tbody>
+                        {% for ligne in lignes %}
+                            <tr>
+                                <td>{{ ligne.ingredient.nom }}</td>
+                                <td>{{ ligne.quantite_commande }} {{ ligne.ingredient.unite }}</td>
+                                <td>{{ ligne.prix_unitaire|floatformat:2 }} Ar</td>
+                                <td>{{ ligne.sous_total|floatformat:2 }} Ar</td>
+                            </tr>
+                        {% empty %}
+                            <tr><td colspan="4" class="text-center">Aucune ligne.</td></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+                {% if commande.statut == 'EN_ATTENTE' %}
+                    <form method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="action" value="receptionner">
+                        <button type="submit" class="btn btn-success" onclick="return confirm('Réceptionner cette commande ? Les stocks seront mis à jour.')"><i class="bi bi-box-seam"></i> Réceptionner la commande</button>
+                    </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>

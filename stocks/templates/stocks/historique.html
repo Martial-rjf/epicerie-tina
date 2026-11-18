@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historique des mouvements - Boulangerie</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        body { background: #f8f4ef; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .card-header { background: linear-gradient(135deg, #6b3a1f, #8B5A2B); color: white; }
+        .card { border: none; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.06); overflow: hidden; }
+        .btn-retour { background: #6c757d; color: white; border-radius: 50px; padding: 10px 25px; font-weight: 600; border: none; text-decoration: none; display: inline-block; }
+        .btn-retour:hover { background: #5a6268; color: white; }
+        .btn-filter { background: #8B5A2B; color: white; border-radius: 50px; padding: 10px 25px; font-weight: 600; border: none; }
+        .btn-filter:hover { background: #6b3a1f; color: white; }
+        .badge-entree { background: #2b7d4b; color: white; padding: 5px 12px; border-radius: 50px; }
+        .badge-sortie { background: #c0392b; color: white; padding: 5px 12px; border-radius: 50px; }
+        .badge-perte { background: #e67e22; color: white; padding: 5px 12px; border-radius: 50px; }
+        .table th { background: #3d2b1f; color: #f5ede6; border: none; }
+    </style>
+</head>
+<body>
+
+<div class="container mt-4">
+    <div class="card shadow">
+        <div class="card-header d-flex justify-content-between align-items-center flex-wrap">
+            <h3 class="mb-0"><i class="bi bi-clock-history me-2"></i>Historique des mouvements</h3>
+            <div>
+                <a href="{% url 'accueil' %}" class="btn-retour">
+                    <i class="bi bi-arrow-left"></i> Retour
+                </a>
+                <a href="{% url 'export_pdf_fiche_stock' %}" class="btn-retour ms-2" style="background: #17a2b8;">
+                    <i class="bi bi-file-pdf"></i> Export PDF
+                </a>
+            </div>
+        </div>
+        <div class="card-body">
+
+            <!-- Filtres -->
+            <form method="GET" class="row g-3 mb-4">
+                <div class="col-md-3">
+                    <label class="form-label fw-bold text-muted">Ingrédient</label>
+                    <select name="ingredient" class="form-select">
+                        <option value="">Tous</option>
+                        {% for ing in ingredients %}
+                            <option value="{{ ing.id }}" {% if ingredient_id|add:"0" == ing.id %}selected{% endif %}>
+                                {{ ing.nom }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label fw-bold text-muted">Type</label>
+                    <select name="type" class="form-select">
+                        <option value="">Tous</option>
+                        {% for key, value in TYPE_CHOICES %}
+                            <option value="{{ key }}" {% if type_mouvement == key %}selected{% endif %}>
+                                {{ value }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label fw-bold text-muted">Date début</label>
+                    <input type="date" name="date_debut" value="{{ date_debut }}" class="form-control">
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label fw-bold text-muted">Date fin</label>
+                    <input type="date" name="date_fin" value="{{ date_fin }}" class="form-control">
+                </div>
+                <div class="col-md-3 d-flex align-items-end gap-2">
+                    <button type="submit" class="btn-filter">
+                        <i class="bi bi-search"></i> Filtrer
+                    </button>
+                    <a href="{% url 'historique_mouvements' %}" class="btn btn-secondary" style="border-radius: 50px;">
+                        <i class="bi bi-x-circle"></i> Réinitialiser
+                    </a>
+                </div>
+            </form>
+
+            <!-- Tableau -->
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Ingrédient</th>
+                            <th>Type</th>
+                            <th>Quantité</th>
+                            <th>Unité</th>
+                            <th>Commentaire</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for mouvement in mouvements %}
+                            <tr>
+                                <td>{{ mouvement.date_mouvement|date:"d/m/Y H:i" }}</td>
+                                <td><strong>{{ mouvement.ingredient.nom }}</strong></td>
+                                <td>
+                                    {% if mouvement.type_mouvement == 'ENTREE' %}
+                                        <span class="badge-entree"><i class="bi bi-plus-circle"></i> Entrée</span>
+                                    {% elif mouvement.type_mouvement == 'SORTIE' %}
+                                        <span class="badge-sortie"><i class="bi bi-dash-circle"></i> Sortie</span>
+                                    {% else %}
+                                        <span class="badge-perte"><i class="bi bi-exclamation-triangle"></i> Perte</span>
+                                    {% endif %}
+                                </td>
+                                <td class="fw-bold">{{ mouvement.quantite|floatformat:2 }}</td>
+                                <td>{{ mouvement.ingredient.unite }}</td>
+                                <td class="text-muted">{{ mouvement.commentaire|default:"-" }}</td>
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="6" class="text-center py-4">
+                                    <i class="bi bi-inbox" style="font-size: 2rem;"></i>
+                                    <p class="mt-2">Aucun mouvement enregistré.</p>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Total des mouvements -->
+            {% if mouvements %}
+                <div class="mt-3 text-muted">
+                    <i class="bi bi-info-circle"></i>
+                    Nombre total de mouvements : <strong>{{ mouvements|length }}</strong>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

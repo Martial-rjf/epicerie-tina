@@ -1,0 +1,38 @@
+# ===== Environnement virtuel =====
+venv/
+env/
+.venv/
+
+# ===== Base de données =====
+db.sqlite3
+db.sqlite3-journal
+
+# ===== Fichiers Python =====
+__pycache__/
+*.py[cod]
+*.log
+
+# ===== Secrets =====
+.env
+
+# ===== Media =====
+media/
+
+# ===== IDE PyCharm =====
+.idea/
+*.iml
+
+# ===== VS Code (au cas où) =====
+.vscode/
+
+# ===== Système =====
+.DS_Store
+Thumbs.db
+
+# ===== PyInstaller (artefacts de compilation) =====
+build/
+dist/
+*.spec
+
+# ===== Fichiers collectés par collectstatic =====
+staticfiles/

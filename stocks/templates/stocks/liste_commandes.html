@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Commandes - Boulangerie</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        body { background: #f8f4ef; }
+        .card-header { background: linear-gradient(135deg, #6b3a1f, #8B5A2B); color: white; }
+        .card { border: none; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.06); overflow: hidden; }
+        .badge-statut { padding: 5px 12px; border-radius: 50px; }
+        .badge-attente { background: #f39c12; color: white; }
+        .badge-recue { background: #2b7d4b; color: white; }
+        .badge-annulee { background: #c0392b; color: white; }
+        .btn-retour { background: #6c757d; color: white; border-radius: 50px; padding: 10px 25px; border: none; text-decoration: none; display: inline-block; }
+        .btn-retour:hover { background: #5a6268; color: white; }
+    </style>
+</head>
+<body>
+    <div class="container mt-4">
+        <div class="card shadow">
+            <div class="card-header d-flex justify-content-between align-items-center flex-wrap">
+                <h3 class="mb-0"><i class="bi bi-list-check me-2"></i>Commandes</h3>
+                <div>
+                    <a href="{% url 'creer_commande' %}" class="btn btn-success" style="border-radius: 50px;"><i class="bi bi-plus-circle"></i> Nouvelle commande</a>
+                    <a href="{% url 'accueil' %}" class="btn-retour"><i class="bi bi-arrow-left"></i> Retour</a>
+                </div>
+            </div>
+            <div class="card-body">
+                {% if messages %}{% for message in messages %}<div class="alert alert-{{ message.tags }} alert-dismissible fade show">{{ message }}<button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>{% endfor %}{% endif %}
+
+                <table class="table table-hover">
+                    <thead class="table-dark"><tr><th>#</th><th>Fournisseur</th><th>Date</th><th>Montant</th><th>Statut</th><th>Actions</th></tr></thead>
+                    <tbody>
+                        {% for cmd in commandes %}
+                            <tr>
+                                <td><strong>#{{ cmd.id }}</strong></td>
+                                <td>{{ cmd.fournisseur.nom }}</td>
+                                <td>{{ cmd.date_commande|date:"d/m/Y H:i" }}</td>
+                                <td>{{ cmd.montant_total|floatformat:2 }} Ar</td>
+                                <td>
+                                    <span class="badge-statut 
+                                        {% if cmd.statut == 'EN_ATTENTE' %}badge-attente{% elif cmd.statut == 'RECUE' %}badge-recue{% else %}badge-annulee{% endif %}">
+                                        {{ cmd.get_statut_display }}
+                                    </span>
+                                </td>
+                                <td><a href="{% url 'detail_commande' cmd.id %}" class="btn btn-sm btn-primary">Détail</a></td>
+                            </tr>
+                        {% empty %}
+                            <tr><td colspan="6" class="text-center">Aucune commande.</td></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

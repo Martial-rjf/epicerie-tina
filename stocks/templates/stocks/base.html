@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Épicerie - Gestion de stock{% endblock %}</title>
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        /* ====== OVERLAY SPINNER ====== */
+        #spinner-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 9999;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            backdrop-filter: blur(4px);
+        }
+        #spinner-overlay .spinner-box {
+            background: white;
+            padding: 40px 50px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        .spinner-box .spinner-border {
+            width: 4rem;
+            height: 4rem;
+            color: #2b7d4b;
+        }
+        .spinner-box .message {
+            margin-top: 20px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2d1a0e;
+        }
+        #spinner-overlay.active {
+            display: flex !important;
+        }
+        /* ====== FIN OVERLAY ====== */
+    </style>
+    {% block extra_CSS %}{% endblock %}
+</head>
+<body>
+
+    <!-- ====== OVERLAY SPINNER ====== -->
+    <div id="spinner-overlay">
+        <div class="spinner-box">
+            <div class="spinner-border" role="status">
+                <span class="visually-hidden">Chargement...</span>
+            </div>
+            <div class="message" id="spinner-message">Traitement en cours...</div>
+        </div>
+    </div>
+    <!-- ====== FIN OVERLAY ====== -->
+
+    {% block content %}{% endblock %}
+
+    <!-- ====== SCRIPTS ====== -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // ============================================================
+        // SPINNER AUTOMATIQUE POUR TOUS LES FORMULAIRES ET LIENS DE SUPPRESSION
+        // ============================================================
+        document.addEventListener('DOMContentLoaded', function() {
+            const overlay = document.getElementById('spinner-overlay');
+            const messageElement = document.getElementById('spinner-message');
+
+            // ---- 1. Pour tous les formulaires (ajout / modification) ----
+            document.querySelectorAll('form').forEach(function(form) {
+                form.addEventListener('submit', function(e) {
+                    // On vérifie si le formulaire a un bouton "submit"
+                    const submitBtn = form.querySelector('button[type="submit"]');
+                    if (submitBtn) {
+                        const btnText = submitBtn.textContent.trim().toLowerCase();
+                        let msg = 'Traitement en cours...';
+                        if (btnText.includes('ajouter') || btnText.includes('enregistrer')) {
+                            msg = '✅ Enregistrement en cours...';
+                        } else if (btnText.includes('modifier')) {
+                            msg = '✏️ Modification en cours...';
+                        } else if (btnText.includes('supprimer') || btnText.includes('oui')) {
+                            msg = '🗑️ Suppression en cours...';
+                        } else {
+                            msg = '⏳ Veuillez patienter...';
+                        }
+                        messageElement.textContent = msg;
+                        overlay.classList.add('active');
+                    }
+                });
+            });
+
+            // ---- 2. Pour tous les liens de suppression (a href) ----
+            document.querySelectorAll('a[href*="supprimer"], a[href*="delete"]').forEach(function(link) {
+                link.addEventListener('click', function(e) {
+                    // Si le lien a un onclick confirm, on attend la confirmation
+                    const confirmMsg = link.getAttribute('onclick');
+                    if (confirmMsg && confirmMsg.includes('confirm')) {
+                        // Le navigateur gère la confirmation, on laisse faire
+                        // mais on prépare le spinner si l'utilisateur confirme
+                        const originalClick = link.onclick;
+                        link.onclick = function(e2) {
+                            // On laisse la confirmation native se faire
+                            const result = originalClick.call(link, e2);
+                            if (result !== false) {
+                                // Si l'utilisateur a confirmé, on affiche le spinner
+                                messageElement.textContent = '🗑️ Suppression en cours...';
+                                overlay.classList.add('active');
+                            }
+                            return result;
+                        };
+                    } else {
+                        // Pas de confirmation, on affiche directement le spinner
+                        messageElement.textContent = '🗑️ Suppression en cours...';
+                        overlay.classList.add('active');
+                    }
+                });
+            });
+
+            // ---- 3. Pour les liens de modification (optionnel) ----
+            document.querySelectorAll('a[href*="modifier"], a[href*="edit"]').forEach(function(link) {
+                link.addEventListener('click', function() {
+                    messageElement.textContent = '✏️ Chargement du formulaire...';
+                    overlay.classList.add('active');
+                });
+            });
+            // ---- 4. Pour les boutons de suppression (formulaires sans confirmation) ----
+            document.querySelectorAll('form button[type="submit"]').forEach(function(btn) {
+                const form = btn.closest('form');
+                if (form) {
+                    // Si le formulaire a une action qui contient "supprimer" ou "delete"
+                    const action = form.getAttribute('action') || '';
+                    if (action.includes('supprimer') || action.includes('delete')) {
+                        form.addEventListener('submit', function() {
+                            messageElement.textContent = '🗑️ Suppression en cours...';
+                            overlay.classList.add('active');
+                        });
+                    }
+                }
+            });
+            // ---- 5. Cacher le spinner au chargement de la page (par sécurité) ----
+            overlay.classList.remove('active');
+        });
+        // ---- 6. Si l'utilisateur utilise le bouton "retour" du navigateur, on cache le spinner ----
+        window.addEventListener('pageshow', function(event) {
+            const overlay = document.getElementById('spinner-overlay');
+            if (overlay) {
+                overlay.classList.remove('active');
+            }
+        });
+    </script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

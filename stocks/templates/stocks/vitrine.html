@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Épicerie Tina - Fianarantsoa | Votre épicerie de confiance</title>
+    <meta name="description" content="Épicerie Tina à Haute Antarandolo, Fianarantsoa 301.">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* ============ NAVBAR ============ */
+        .navbar-vitrine {
+            background: rgba(30, 60, 114, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px 0;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+
+        .navbar-vitrine.scrolled {
+            padding: 8px 0;
+            background: rgba(30, 60, 114, 0.98);
+        }
+
+        .navbar-brand {
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: white !important;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .navbar-brand i {
+            font-size: 1.8rem;
+            color: #f39c12;
+        }
+
+        .navbar-vitrine .nav-link {
+            color: rgba(255,255,255,0.9) !important;
+            font-weight: 600;
+            padding: 8px 18px !important;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-vitrine .nav-link:hover {
+            color: white !important;
+            background: rgba(255,255,255,0.15);
+        }
+
+        .btn-espace-gerant {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white !important;
+            border-radius: 50px;
+            padding: 10px 24px;
+            font-weight: 700;
+            border: none;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-espace-gerant:hover {
+            background: linear-gradient(135deg, #2980b9, #1e3c72);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(52,152,219,0.4);
+            color: white;
+        }
+
+        /* ============ HERO ============ */
+        .hero {
+            background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            padding: 100px 0 50px;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                radial-gradient(circle at 20% 30%, rgba(52,152,219,0.3), transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(243,156,18,0.2), transparent 40%);
+            animation: gradientMove 15s ease-in-out infinite;
+        }
+
+        @keyframes gradientMove {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.1) rotate(5deg); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            color: white;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 900;
+            line-height: 1.15;
+            margin-bottom: 20px;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .hero h1 .accent {
+            background: linear-gradient(135deg, #3498db, #f39c12);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero .lead {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            margin-bottom: 30px;
+            animation: fadeInUp 0.8s ease-out 0.2s backwards;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            animation: fadeInUp 0.8s ease-out 0.4s backwards;
+        }
+
+        .btn-hero-primary {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            border: none;
+            padding: 16px 36px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.05rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 10px 30px rgba(52,152,219,0.4);
+        }
+
+        .btn-hero-primary:hover {
+            background: linear-gradient(135deg, #2980b9, #1e3c72);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(52,152,219,0.5);
+        }
+
+        .btn-hero-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid rgba(255,255,255,0.4);
+            padding: 14px 34px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.05rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-hero-secondary:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: white;
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        .hero-illustration {
+            position: relative;
+            z-index: 2;
+            animation: fadeInUp 1s ease-out 0.3s backwards;
+        }
+
+        .hero-illustration .main-icon {
+            font-size: 18rem;
+            color: rgba(255,255,255,0.1);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ============ FEATURES ============ */
+        .features {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #f8fbff, #eaf2f8);
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #1e3c72;
+            margin-bottom: 10px;
+        }
+
+        .section-title p {
+            font-size: 1.1rem;
+            color: #5a7a9a;
+        }
+
+        .section-title .underline {
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(135deg, #3498db, #f39c12);
+            margin: 15px auto;
+            border-radius: 2px;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            height: 100%;
+            box-shadow: 0 10px 30px rgba(30,60,114,0.08);
+            transition: all 0.3s ease;
+            border-top: 4px solid transparent;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px rgba(30,60,114,0.15);
+            border-top-color: #3498db;
+        }
+
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin: 0 auto 20px;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover .feature-icon {
+            transform: rotate(-10deg) scale(1.1);
+        }
+
+        .feature-card h4 {
+            font-weight: 700;
+            color: #1e3c72;
+            margin-bottom: 10px;
+        }
+
+        .feature-card p {
+            color: #5a7a9a;
+        }
+
+        /* ============ PRODUITS ============ */
+        .produits {
+            padding: 80px 0;
+            background: white;
+        }
+
+        .produit-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(30,60,114,0.08);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(52,152,219,0.1);
+        }
+
+        .produit-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px rgba(30,60,114,0.15);
+        }
+
+        .produit-image {
+            height: 200px;
+            background: linear-gradient(135deg, #e3f2fd, #d6eaf8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+            color: #3498db;
+            transition: all 0.3s ease;
+        }
+
+        .produit-card:hover .produit-image {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+        }
+
+        .produit-body {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .produit-body h5 {
+            font-weight: 700;
+            color: #1e3c72;
+            margin-bottom: 8px;
+        }
+
+        .produit-body .categorie {
+            font-size: 0.8rem;
+            color: #3498db;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        /* ============ HORAIRES ============ */
+        .horaires {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+        }
+
+        .horaires .section-title h2 { color: white; }
+        .horaires .section-title p { color: rgba(255,255,255,0.8); }
+
+        .horaire-card {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .horaire-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.15);
+        }
+
+        .horaire-row:last-child { border-bottom: none; }
+
+        .horaire-row .jour {
+            font-weight: 600;
+            font-size: 1.05rem;
+        }
+
+        .horaire-row .heure {
+            color: #f39c12;
+            font-weight: 700;
+        }
+
+        /* ============ CONTACT ============ */
+        .contact {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #f8fbff, #eaf2f8);
+        }
+
+        .contact-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            height: 100%;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(30,60,114,0.08);
+            transition: all 0.3s ease;
+        }
+
+        .contact-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 50px rgba(30,60,114,0.15);
+        }
+
+        .contact-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            margin: 0 auto 20px;
+        }
+
+        .contact-card h5 {
+            font-weight: 700;
+            color: #1e3c72;
+            margin-bottom: 10px;
+        }
+
+        .contact-card p {
+            color: #5a7a9a;
+            margin: 0;
+        }
+
+        .contact-card a {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .contact-card a:hover { color: #1e3c72; }
+
+        /* ============ CTA FINAL ============ */
+        .cta-final {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #0f2027, #2c5364);
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-final::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 50% 50%, rgba(243,156,18,0.2), transparent 60%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.1); }
+        }
+
+        .cta-final h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .cta-final p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .cta-final .btn-hero-primary,
+        .cta-final .btn-hero-secondary {
+            position: relative;
+            z-index: 2;
+            margin: 5px;
+        }
+
+        /* ============ FOOTER ============ */
+        .footer {
+            background: #0a1628;
+            color: rgba(255,255,255,0.7);
+            padding: 40px 0 20px;
+            text-align: center;
+        }
+
+        .footer .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        .footer .logo i { color: #f39c12; }
+
+        .footer .socials { margin: 20px 0; }
+
+        .footer .socials a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border-radius: 50%;
+            margin: 0 5px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .footer .socials a:hover {
+            background: #3498db;
+            transform: translateY(-3px);
+        }
+
+        /* ============ SCROLL TO TOP ============ */
+        .scroll-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            text-decoration: none;
+            box-shadow: 0 10px 30px rgba(52,152,219,0.4);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .scroll-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .scroll-top:hover {
+            background: linear-gradient(135deg, #2980b9, #1e3c72);
+            color: white;
+            transform: translateY(-5px);
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.2rem; }
+            .hero .lead { font-size: 1rem; }
+            .hero-illustration { display: none; }
+            .section-title h2 { font-size: 1.8rem; }
+            .btn-hero-primary,
+            .btn-hero-secondary { padding: 12px 24px; font-size: 0.95rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============ NAVBAR ============ -->
+    <nav class="navbar navbar-expand-lg navbar-vitrine fixed-top" id="navbar">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="bi bi-shop"></i>
+                ÉPICERIE TINA
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+                <i class="bi bi-list text-white fs-2"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navMenu">
+                <ul class="navbar-nav ms-auto align-items-center gap-2">
+                    <li class="nav-item"><a class="nav-link" href="#accueil">Accueil</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#services">Services</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#produits">Produits</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#horaires">Horaires</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+
+                    <!-- ⭐ NOUVEAU : Lien vers le tableau de bord -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'accueil' %}">
+                            <i class="bi bi-speedometer2 me-1"></i> Tableau de bord
+                        </a>
+                    </li>
+
+                    <li class="nav-item ms-lg-3">
+                        <a href="{% url 'login' %}" class="btn-espace-gerant">
+                            <i class="bi bi-box-arrow-in-right"></i>
+                            Espace Gérant
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ============ HERO ============ -->
+    <section class="hero" id="accueil">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-7 hero-content">
+                    <h1>
+                        Bienvenue à l'<br>
+                        <span class="accent">Épicerie Tina</span>
+                    </h1>
+                    <p class="lead">
+                        <i class="bi bi-geo-alt-fill me-2"></i>
+                        Haute Antarandolo, Fianarantsoa 301
+                    </p>
+                    <p class="lead" style="font-size:1.1rem;">
+                        Votre épicerie de confiance pour des produits frais et de qualité, chaque jour.
+                    </p>
+                    <div class="hero-buttons">
+                        <a href="#produits" class="btn-hero-primary">
+                            <i class="bi bi-basket"></i>
+                            Découvrir nos produits
+                        </a>
+                        <a href="{% url 'accueil' %}" class="btn-hero-secondary">
+                            <i class="bi bi-speedometer2"></i>
+                            Voir le tableau de bord
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-5 hero-illustration text-center">
+                    <i class="bi bi-basket2 main-icon"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ FEATURES ============ -->
+    <section class="features" id="services">
+        <div class="container">
+            <div class="section-title">
+                <h2>Pourquoi nous choisir ?</h2>
+                <div class="underline"></div>
+                <p>Une expérience d'épicerie simple, rapide et de qualité</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="bi bi-clock-history"></i></div>
+                        <h4>Ouvert 7j/7</h4>
+                        <p>Nous sommes ouverts tous les jours pour vous servir, même le dimanche.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="bi bi-basket-fill"></i></div>
+                        <h4>Produits frais</h4>
+                        <p>Un approvisionnement quotidien en produits frais et de qualité.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="bi bi-piggy-bank"></i></div>
+                        <h4>Prix justes</h4>
+                        <p>Des prix compétitifs et transparents pour tous nos clients.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ PRODUITS ============ -->
+    <section class="produits" id="produits">
+        <div class="container">
+            <div class="section-title">
+                <h2>Nos produits</h2>
+                <div class="underline"></div>
+                <p>Une sélection de produits pour toute la famille</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-3">
+                    <div class="produit-card">
+                        <div class="produit-image"><i class="bi bi-basket2-fill"></i></div>
+                        <div class="produit-body">
+                            <span class="categorie">Épicerie</span>
+                            <h5>Produits de base</h5>
+                            <p class="text-muted small">Riz, huile, sucre, farine...</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="produit-card">
+                        <div class="produit-image"><i class="bi bi-egg-fried"></i></div>
+                        <div class="produit-body">
+                            <span class="categorie">Frais</span>
+                            <h5>Produits frais</h5>
+                            <p class="text-muted small">Œufs, lait, beurre...</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="produit-card">
+                        <div class="produit-image"><i class="bi bi-cup-hot-fill"></i></div>
+                        <div class="produit-body">
+                            <span class="categorie">Boissons</span>
+                            <h5>Boissons</h5>
+                            <p class="text-muted small">Jus, sodas, eau...</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="produit-card">
+                        <div class="produit-image"><i class="bi bi-cake2-fill"></i></div>
+                        <div class="produit-body">
+                            <span class="categorie">Boulangerie</span>
+                            <h5>Boulangerie</h5>
+                            <p class="text-muted small">Pain, viennoiseries...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ HORAIRES ============ -->
+    <section class="horaires" id="horaires">
+        <div class="container">
+            <div class="section-title">
+                <h2>Nos horaires</h2>
+                <div class="underline"></div>
+                <p>Nous vous accueillons toute la semaine</p>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="horaire-card">
+                        <div class="horaire-row">
+                            <span class="jour"><i class="bi bi-calendar-week me-2"></i>Lundi - Vendredi</span>
+                            <span class="heure">06h00 - 20h00</span>
+                        </div>
+                        <div class="horaire-row">
+                            <span class="jour"><i class="bi bi-calendar-week me-2"></i>Samedi</span>
+                            <span class="heure">06h00 - 21h00</span>
+                        </div>
+                        <div class="horaire-row">
+                            <span class="jour"><i class="bi bi-calendar-week me-2"></i>Dimanche</span>
+                            <span class="heure">07h00 - 18h00</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ CONTACT ============ -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <div class="section-title">
+                <h2>Nous contacter</h2>
+                <div class="underline"></div>
+                <p>Une question ? Nous sommes là pour vous aider</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="contact-card">
+                        <div class="contact-icon"><i class="bi bi-geo-alt-fill"></i></div>
+                        <h5>Adresse</h5>
+                        <p>Haute Antarandolo<br>Fianarantsoa 301<br>Madagascar</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="contact-card">
+                        <div class="contact-icon"><i class="bi bi-telephone-fill"></i></div>
+                        <h5>Téléphone</h5>
+                        <p>
+                            <a href="tel:+261340000000">+261 34 00 000 </a><br>
+                            <a href="tel:+261340000000">+261 34 00 000 </a><br>
+                            <a href="tel:+261340000000">+261 34 00 000 </a><br>
+                            <a href="tel:+261340000000">+261 38 99 585 86</a><br>
+                            <a href="tel:+261330000000">+261 33 00 000 00</a>
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="contact-card">
+                        <div class="contact-icon"><i class="bi bi-envelope-fill"></i></div>
+                        <h5>Email</h5>
+                        <p>
+                            <a href="mailto:contact@epicerietina.mg">contact@epicerietina.mg</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ CTA FINAL ============ -->
+    <section class="cta-final">
+        <div class="container position-relative" style="z-index:2;">
+            <h2>Vous êtes le gérant ?</h2>
+            <p>Accédez à votre espace de gestion pour suivre votre stock et vos ventes.</p>
+            <a href="{% url 'accueil' %}" class="btn-hero-secondary">
+                <i class="bi bi-speedometer2"></i>
+                Voir le tableau de bord
+            </a>
+            <a href="{% url 'login' %}" class="btn-hero-primary">
+                <i class="bi bi-box-arrow-in-right"></i>
+                Se connecter à l'espace gérant
+            </a>
+        </div>
+    </section>
+
+    <!-- ============ FOOTER ============ -->
+    <footer class="footer">
+        <div class="container">
+            <div class="logo"><i class="bi bi-shop"></i> ÉPICERIE TINA</div>
+            <p>Votre épicerie de confiance à Fianarantsoa</p>
+            <div class="socials">
+                <a href="#"><i class="bi bi-facebook"></i></a>
+                <a href="#"><i class="bi bi-whatsapp"></i></a>
+                <a href="#"><i class="bi bi-envelope"></i></a>
+            </div>
+            <hr style="border-color:rgba(255,255,255,0.1);margin:20px 0;">
+            <p style="font-size:0.85rem;margin:0;">&copy; {% now "Y" %} Épicerie Tina - Tous droits réservés</p>
+        </div>
+    </footer>
+
+    <!-- ============ SCROLL TO TOP ============ -->
+    <a href="#" class="scroll-top" id="scrollTop">
+        <i class="bi bi-arrow-up"></i>
+    </a>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            const scrollTop = document.getElementById('scrollTop');
+
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+
+            if (window.scrollY > 300) {
+                scrollTop.classList.add('visible');
+            } else {
+                scrollTop.classList.remove('visible');
+            }
+        });
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>

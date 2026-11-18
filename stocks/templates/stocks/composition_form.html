@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ titre }} - Épicerie</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        body { background: linear-gradient(135deg, #fdf6e3 0%, #f5e6ca 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; }
+        .card-form { border: none; border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.12); background: white; max-width: 550px; width: 100%; }
+        .card-header-custom { background: linear-gradient(135deg, #2b7d4b, #1e5f38); color: white; padding: 25px 30px; }
+        .card-body-custom { padding: 35px; }
+        .btn-primary-custom { background: linear-gradient(135deg, #2b7d4b, #1e5f38); border: none; padding: 12px 35px; border-radius: 50px; color: white; }
+        .btn-primary-custom:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(43,125,75,0.35); color: white; }
+        .btn-secondary-custom { background: #f0e6d8; border: none; padding: 12px 35px; border-radius: 50px; color: #4a3520; text-decoration: none; display: inline-block; }
+        .btn-secondary-custom:hover { background: #e0d0bc; transform: translateY(-2px); }
+        .produit-info { background: #f8f4ef; padding: 15px 20px; border-radius: 12px; margin-bottom: 25px; border-left: 4px solid #2b7d4b; }
+    </style>
+</head>
+<body>
+    <div class="card card-form">
+        <div class="card-header-custom">
+            <h2><i class="bi bi-{{ icone }} me-2"></i>{{ titre }}</h2>
+        </div>
+        <div class="card-body-custom">
+            <nav><a href="{% url 'liste_articles' %}" class="text-muted"><i class="bi bi-arrow-left"></i> Retour</a></nav>
+            <div class="produit-info">
+                <i class="bi bi-info-circle me-2" style="color: #2b7d4b;"></i>
+                Vous ajoutez un produit à la composition de : <strong>{{ article.nom }}</strong>
+            </div>
+            <form method="POST">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <div class="d-flex justify-content-end gap-3 mt-4">
+                    <a href="{% url 'liste_articles' %}" class="btn-secondary-custom"><i class="bi bi-x-circle"></i> Annuler</a>
+                    <button type="submit" class="btn-primary-custom"><i class="bi bi-check2-circle"></i> {{ bouton }}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
