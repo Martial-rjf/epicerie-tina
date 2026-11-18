@@ -21,7 +21,6 @@
             overflow: hidden;
         }
 
-        /* Bulles décoratives en arrière-plan */
         body::before,
         body::after {
             content: '';
@@ -177,47 +176,6 @@
             font-weight: 300;
         }
 
-        .input-group .form-control {
-            border-radius: 12px 0 0 12px;
-        }
-
-        .input-group .form-control:focus {
-            border-color: #3498db;
-            border-right-color: #3498db;
-        }
-
-        .input-group .btn-toggle {
-            border-radius: 0 12px 12px 0;
-            border: 2px solid #d6eaf8;
-            border-left: none;
-            background: #f8fbff;
-            color: #1e3c72;
-            padding: 13px 16px;
-            transition: all 0.2s ease;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .input-group .btn-toggle:hover {
-            background: #e8f4fb;
-        }
-
-        .input-group .btn-toggle:focus {
-            outline: 2px solid #3498db;
-            outline-offset: 2px;
-        }
-
-        .input-group .btn-toggle i {
-            font-size: 1.2rem;
-            transition: transform 0.2s ease;
-        }
-
-        .input-group .btn-toggle:hover i {
-            transform: scale(1.1);
-        }
-
         .btn-login {
             background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #3498db 100%);
             background-size: 200% 200%;
@@ -371,28 +329,20 @@
                     <label for="id_password" class="form-label">
                         <i class="bi bi-lock me-1"></i> Mot de passe
                     </label>
-                    <div class="input-group">
-                        <input type="password"
-                               name="password"
-                               id="id_password"
-                               class="form-control"
-                               placeholder="Entrez votre mot de passe"
-                               required
-                               autocomplete="current-password">
-                        <button type="button"
-                                class="btn-toggle"
-                                id="togglePassword"
-                                aria-label="Afficher ou masquer le mot de passe"
-                                role="button">
-                            <i class="bi bi-eye" id="toggleIcon"></i>
-                        </button>
-                    </div>
+                    <!-- Le mot de passe est TOUJOURS caché (plus de bouton œil) -->
+                    <input type="password"
+                           name="password"
+                           id="id_password"
+                           class="form-control"
+                           placeholder="Entrez votre mot de passe"
+                           required
+                           autocomplete="current-password">
                 </div>
 
                 <div class="text-center mt-2 mb-4">
-                    <a href="{% url 'password_reset' %}" class="text-muted" style="text-decoration: none; font-weight: 500;">
-                        <i class="bi bi-question-circle"></i> Mot de passe oublié ?
-                    </a>
+                    <span class="text-muted" style="font-weight: 500;">
+                        <i class="bi bi-question-circle"></i> Mot de passe oublié ? Contactez l'administrateur.
+                    </span>
                 </div>
 
                 <button type="submit" class="btn btn-login">
@@ -410,34 +360,7 @@
         </div>
     </div>
 
-    <script>
-        (function() {
-            const toggleBtn = document.getElementById('togglePassword');
-            const passwordInput = document.getElementById('id_password');
-            const toggleIcon = document.getElementById('toggleIcon');
+    <!-- Plus de JavaScript inutile pour le bouton œil -->
 
-            if (!toggleBtn || !passwordInput || !toggleIcon) return;
-
-            toggleBtn.addEventListener('click', function() {
-                const isPassword = passwordInput.getAttribute('type') === 'password';
-                const newType = isPassword ? 'text' : 'password';
-                passwordInput.setAttribute('type', newType);
-
-                toggleIcon.classList.toggle('bi-eye');
-                toggleIcon.classList.toggle('bi-eye-slash');
-
-                passwordInput.focus();
-
-                this.setAttribute('aria-label', isPassword ? 'Masquer le mot de passe' : 'Afficher le mot de passe');
-            });
-
-            toggleBtn.addEventListener('keydown', function(e) {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    this.click();
-                }
-            });
-        })();
-    </script>
 </body>
 </html>
